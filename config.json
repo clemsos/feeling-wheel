@@ -1,0 +1,338 @@
+{"wheels": [
+    {
+	"ID" : "1",
+	"outsideRadius": "250", 
+	"insideRadius": "150",
+	"textRadius" : "180",
+	"numberSegments" : "16", 
+	"segments" :
+	[
+	  {
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   }
+	]
+    },
+   {
+	"ID" : "2",
+	"outsideRadius": "150", 
+	"insideRadius": "100",
+	"textRadius" : "120",
+	"numberSegments" : "8", 
+	"segments" :
+	[
+	  {
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   }
+	]
+    },
+     {
+	"ID" : "3",
+	"outsideRadius": "100", 
+	"insideRadius": "50",
+	"textRadius" : "80",
+	"numberSegments" : "4", 
+	"segments" :
+	[
+	  {
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   },{
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   },
+	  {
+	    "color":"rgba(204,0,113,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(103,58,126,255)",
+	    "legend": "sick"
+	   }
+	]
+    },
+{
+	"ID" : "4",
+	"outsideRadius": "50", 
+	"insideRadius": "0",
+	"textRadius" : "30",
+	"numberSegments" : "2", 
+	"segments" :
+	[
+	  {
+	    "color":"rgba(254,242,0,255)",
+	    "legend": "anger"
+	   },
+	  {
+	    "color":"rgba(255,204,0,255)",
+	    "legend": "worried"
+	   },
+	  {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange"
+	   },
+	  {
+	    "color":"rgba(248,1,32,255)",
+	    "legend": "fury"
+	   }
+	]
+    }
+  ]
+}

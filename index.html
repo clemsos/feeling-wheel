@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+	<script type="text/javascript" src="jquery.js"></script>
+        <style>
+            body { margin: 0px; padding: 0px;}
+            #colortest {border: 1px solid #9C9898; width:50px; height:50px;}
+            .left {float:left;width:500px}
+            .right {float:left;width:100px}
+        </style>
+	
+    </head>
+    <body>
+	<div class="right">
+		<div id="colortest"></div>
+		<p id="colorname">Color Name </p>
+	</div>
+	<div class="left">
+		<canvas id="canvas" width="500" height="500"></canvas>
+	</div>
+
+<script type="text/javascript">
+
+// function to draw wheel
+var drawWheel = function drawWheel(outsideRadius, insideRadius, textRadius, arcSeg, colors, emotions) {
+
+	// constructor
+	this.outsideRadius = outsideRadius;
+	this.insideRadius = insideRadius;	
+	this.arcSeg = arcSeg; // nombre de segments
+	this.textRadius = textRadius;
+	this.colors = colors //is an array of size 2*argSeg containing colors names;
+	this.emotions = emotions //is an array of size 2*argSeg containing emotions names;
+
+// declare all values
+	var startAngle = 0;
+	var spinArcStart = 10;
+	var ctx;
+	var canvas;
+	var arc = Math.PI / arcSeg;
+
+	//set context 
+	var canvas = document.getElementById("canvas");
+	if (canvas.getContext) {
+	    ctx = canvas.getContext("2d");
+
+	  // style stroke +font 
+	    ctx.strokeStyle = "black";
+	    ctx.lineWidth = 1;
+	    ctx.font = 'bold 12px Helvetica, Arial';
+
+	  // draw segments
+	    for(var i = 0; i < 2*arcSeg; i++) {
+	      var angle = startAngle + i * arc;
+
+	    // add colors
+		ctx.fillStyle = colors[i];
+		ctx.beginPath();
+		ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
+		ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
+		ctx.stroke();
+		ctx.fill();
+		ctx.save();
+
+	    // add text
+		var text = emotions[i];
+		ctx.shadowOffsetX = -1;
+		ctx.shadowOffsetY = -1;
+		// ctx.shadowBlur    = 0;
+		// ctx.shadowColor   = "rgb(220,220,220)";
+		ctx.fillStyle = "black";
+		ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 
+			    250 + Math.sin(angle + arc / 2) * textRadius);
+		// ctx.rotate(angle + arc / 2 + Math.PI / 2);
+		ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+		ctx.restore();
+
+	    } // end for loop
+	
+	// behaviour on Click  
+	$("#canvas").click(function(e){
+	// get color
+		canvas = $("#canvas");
+		var x = Math.floor((e.pageX-canvas.offset().left));
+		var y = Math.floor((e.pageY-canvas.offset().top));
+		var data = ctx.getImageData(x, y, 1, 1).data;
+		r = data[0]; 
+		g = data[1];
+		b = data[2];
+		a = data[3];
+		myColor = "rgba(" + r + "," + g + "," + b + "," + a + ")";
+		// console.log(myColor);
+		
+		$("#colortest").css("background-color", myColor);
+		$("#colorname").html(myColor);
+
+
+});
+	} // end if
+} // end of the function
+
+jQuery(function($) {
+
+// get data
+$.getJSON('config.json', function(data) {         
+	   
+	
+
+	$.each(data.wheels, function(key, val) {
+	   var wheelConfig = [];
+	   var colorValue = [];
+	   var emoValue = [];
+	   for(i =0;i < val.numberSegments*2;i++) {
+	   	var seg = val.segments[i];
+		// console.log(seg.color);
+		colorValue.push(seg.color);
+		emoValue.push(seg.legend);
+
+	   }
+ 	
+	   wheelConfig.push([val.outsideRadius, val.insideRadius, val.textRadius, val.numberSegments, colorValue, emoValue])
+	
+	
+	// draw all wheels
+	for(i=0; i<4; i++) {
+	   drawWheel(
+		wheelConfig[0][0], 
+		wheelConfig[0][1], 
+		wheelConfig[0][2], 
+		wheelConfig[0][3], 
+		wheelConfig[0][4],
+		wheelConfig[0][5]);
+		//console.log(wheelConfig[i][4]);
+	   }
+
+	 }); // end each
+
+}); // end Json
+
+
+}) // end document
+
+
+</script>
+    </body>
+</html>
