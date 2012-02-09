@@ -103,8 +103,6 @@ jQuery(function($) {
 
 // get data
 $.getJSON('config.json', function(data) {         
-	   
-	
 
 	$.each(data.wheels, function(key, val) {
 	   var wheelConfig = [];
@@ -118,20 +116,19 @@ $.getJSON('config.json', function(data) {
 
 	   }
  	
+	// populate an array with all values
 	   wheelConfig.push([val.outsideRadius, val.insideRadius, val.textRadius, val.numberSegments, colorValue, emoValue])
 	
-	
+
 	// draw all wheels
-	for(i=0; i<4; i++) {
 	   drawWheel(
 		wheelConfig[0][0], 
 		wheelConfig[0][1], 
 		wheelConfig[0][2], 
 		wheelConfig[0][3], 
 		wheelConfig[0][4],
-		wheelConfig[0][5]);
-		//console.log(wheelConfig[i][4]);
-	   }
+		wheelConfig[0][5]
+	   );
 
 	 }); // end each
 
