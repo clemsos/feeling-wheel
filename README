@@ -1,0 +1,11 @@
+FEELING WHEEL
+----
+
+Tool to select an emotion from a custom color wheel
+
+Javascript + jQuery + html5 canvas 
+
+
+TODO :
+- input real data in config.json
+- retrive emotion name from color rgba code on click
