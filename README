@@ -6,8 +6,4 @@ Tool to select an emotion from a custom color wheel
 Javascript + jQuery + html5 canvas 
 
 
-TODO :
-- config.json : input real data 
-(using this website : http://www.do2learn.com/organizationtools/EmotionsColorWheel/index.htm)
-- onClick : retrieve emotion name from color rgba code 
-- improve display quality  
+TODO : check the issues tab
