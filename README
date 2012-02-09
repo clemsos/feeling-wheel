@@ -6,4 +6,29 @@ Tool to select an emotion from a custom color wheel
 Javascript + jQuery + html5 canvas 
 
 
-TODO : check the issues tab
+About config.json
+---------------------
+You can have as many wheels as you want.
+
+Every wheel config is structure as followed :
+
+	"ID" : facultative value to identify your wheel,
+	"outsideRadius": radius value of the outside ring,
+	"insideRadius": radius value of the outside ring, 
+	"textRadius" : text disposition,
+	"numberSegments" : number of segments inside your wheel, 
+	"segments" : total count = numberSegments 
+		[
+		  {
+		    "color": color using rgba,
+		    "legend": some text of your choice
+		   }
+		]
+
+
+
+
+
+TODO 
+---------------------
+check the issues tab

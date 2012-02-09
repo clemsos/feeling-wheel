@@ -32,7 +32,7 @@ var drawWheel = function drawWheel(outsideRadius, insideRadius, textRadius, arcS
 	this.colors = colors //is an array of size 2*argSeg containing colors names;
 	this.emotions = emotions //is an array of size 2*argSeg containing emotions names;
 
-// declare all values
+	// declare all values
 	var startAngle = 0;
 	var spinArcStart = 10;
 	var ctx;
@@ -50,7 +50,7 @@ var drawWheel = function drawWheel(outsideRadius, insideRadius, textRadius, arcS
 	    ctx.font = 'bold 12px Helvetica, Arial';
 
 	  // draw segments
-	    for(var i = 0; i < 2*arcSeg; i++) {
+	    for(var i = 0; i < arcSeg*2; i++) {
 	      var angle = startAngle + i * arc;
 
 	    // add colors
@@ -103,6 +103,7 @@ jQuery(function($) {
 
 // get data
 $.getJSON('config.json', function(data) {         
+	   
 
 	$.each(data.wheels, function(key, val) {
 	   var wheelConfig = [];
