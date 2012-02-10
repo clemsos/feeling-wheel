@@ -16,9 +16,9 @@ function Shape(iR, oR, pos, nb, fill, legend) {
   this.oR = oR || 1; 
   this.iR = iR || 1; 
   this.nb = nb || 1; // total number of element the loop
-  this.pos = pos || 1; // i position in the loop
-  this.fill = fill || '#AAAAAA' 
-  this.legend = legend || 'text'
+  this.pos = pos || 0; // i position in the loop
+  this.fill = fill || '#AAAAAA';
+  this.legend = legend || 'text';
 
 }
 
@@ -50,7 +50,6 @@ Shape.prototype.draw = function(ctx) {
 
     this.n1 = Math.sin(angle) / Math.cos(angle+arc);
     this.n2 = Math.sin(angle) / Math.cos(angle+arc);
-
 
 }
 
@@ -182,14 +181,12 @@ CanvasState.prototype.draw = function() {
     var shapes = this.shapes;
     this.clear();
 
-
     // ** Add stuff you want drawn in the background all the time here **
-
     
     var l = shapes.length;
 
      // draw all shapes
-    for (var i = 0; i < l; i++) {
+    for (i = 0; i<l; i++) {
       var shape = shapes[i];
       shapes[i].draw(ctx); 
     }
@@ -213,6 +210,11 @@ CanvasState.prototype.draw = function() {
 	ctx.stroke();
 	ctx.fill();
 	ctx.save();
+
+	// add basic interface
+	document.getElementById('colortest').style.background = mySel.fill;
+	document.getElementById('colorname').innerHTML = mySel.fill;
+	document.getElementById('legend').innerHTML = mySel.legend;
 
     }
     

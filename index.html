@@ -3,7 +3,7 @@
     <head>
 	<script type="text/javascript" src="jquery.js"></script>
         <style>
-            body { margin: 0px; padding: 0px;}
+            body { margin: 0px; padding: 0px; font-size:10pt}
             #colortest {border: 1px solid #9C9898; width:50px; height:50px;}
             .left {float:left;width:500px}
             .right {float:left;width:100px}
@@ -13,12 +13,15 @@
     <body>
 
 	<div class="right">
+		<h3>Color</h3>
 		<div id="colortest"></div>
 		<p id="colorname">Color Name</p>
+		<h3>Legend</h3>
+		<p id="legend">Emotion Name</p>
 	</div>
 	<div class="left">
 	<canvas id="canvas" width="500" height="500" style="border: 1px solid black;">
-	This text is displayed if your browser does not support HTML5 Canvas.
+		This text is displayed if your browser does not support HTML5 Canvas.
 	</canvas>
 	</div>
 
@@ -36,9 +39,8 @@
 	// get data
 	$.getJSON('test.json', function(data) {         
 		   
-
 		$.each(data.wheels, function(key, val) {
-		   var wheelConfig = [];
+		  
 		   var colors = [];
 		   var legends = [];
 		   for(i =0;i < val.numberSegments*2;i++) {
@@ -50,7 +52,8 @@
 		   }
 	 	
 	// all our shapes to canvas
-  	for(j=0;j<=val.numberSegments*2;j++) {
+  	for(j=0; j<val.numberSegments*2 ;j++) {
+	console.log(colors[j]);
 	 s.addShape(
 		new Shape(
 			val.insideRadius, // iR
@@ -61,12 +64,11 @@
 			legends[j] // legend
 			// val.textRadius,
 		)); 
-   }
+	}
 
 		 }); // end each
 
 	}); // end Json
-
 
 	}) // end document
 	</script>
