@@ -23,7 +23,7 @@ function Shape(iR, oR, pos, nb, fill, legend) {
 }
 
 var startAngle = 0;
-var m1, m2, n1, n2; // basic coordonates for arcs
+
 
 // Draws this shape into context
 Shape.prototype.draw = function(ctx) {
@@ -44,7 +44,6 @@ Shape.prototype.draw = function(ctx) {
   ctx.fill();
   ctx.save();
 
-  //store info for hit test - m1/m2 outside circle n1/n2 inside circle 
     this.m1 = Math.sin(angle+arc) / Math.cos(angle+arc);
     this.m2 = Math.sin(angle) / Math.cos(angle);
 
@@ -56,9 +55,37 @@ Shape.prototype.draw = function(ctx) {
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mx, my) {
-    var x = mx - 250 , y = my-250 ;
 
-    if( y < this.m1 * x && y > this.m2 * x ) {
+// coordinates
+
+	var arc = Math.PI / this.nb;
+	var angle = startAngle + this.pos*arc;
+	var x = 0 , y = 0;
+
+//  A(x + radius, y), B(x + radius*cos(angle), y + radius*sin(angle))
+// http://stackoverflow.com/questions/3671611/how-do-i-get-the-x-y-coordinates-of-the-first-and-last-points-of-the-drawn-arc-r
+
+
+// [AB] coordonates on outer circle : A(xA,yA), B(xB,yB)
+//  ctx.arc(0, 0,  this.oR, angle, angle + arc, false);
+    var xA = x+this.oR, yA = y;
+    var xB = x+this.oR*Math.cos(angle+arc),  yB = this.oR*Math.sin(angle+arc);
+
+// [CD] coordonates on outer circle : C(xC,yC), D(xD,yD)
+// ctx.arc(0, 0,  this.iR, angle + arc, angle, true);
+    var xC = x+this.iR, yC = y;
+    var xD = x+this.iR*Math.cos(angle+arc),  yD = this.oR*Math.sin(angle+arc);
+
+// check values
+     console.log(mx-250,250-my)
+     console.log('A(' + xA + ',' + yA + '))')
+     console.log('B(' + xB + ',' + yB + '))')
+     console.log('C(' + xC + ',' + yC + '))')
+     console.log('D(' + xD + ',' + yD + '))')
+
+    var myX = mx - 250 , myY = my-250 ;
+
+    if( myY < this.m1 * myX && myY > this.m2 * myX ) {
         return true;
     } else {
         return false;
