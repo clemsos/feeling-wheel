@@ -11,10 +11,8 @@
 
 
 // Constructor for segment objects
-function Shape(cx, cy, iR, oR, pos, nb, fill, legend) {
+function Shape(iR, oR, pos, nb, fill, legend) {
 
-  this.cx = cx || 0;
-  this.cy = cy || 0;
   this.oR = oR || 1; 
   this.iR = iR || 1; 
   this.nb = nb || 1; // total number of element the loop
@@ -249,17 +247,3 @@ CanvasState.prototype.getMouse = function(e) {
 }
 
 
-
-// The init() function to add to <body> tag
-
-function init() {
-  var s = new CanvasState(document.getElementById('canvas'));
-
-  for(j=0;j<=32;j++) {
-	  s.addShape(new Shape(250,250,200,125, j,8)); // NB : Shape(cx, cy, iR, oR, pos, nb, fill)
-   }
-
-console.log(s);
-}
-
-// Now go make something amazing!

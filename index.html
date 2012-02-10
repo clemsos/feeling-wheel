@@ -10,7 +10,7 @@
         </style>
 	
     </head>
-    <body onload="init()">
+    <body>
 
 	<div class="right">
 		<div id="colortest"></div>
@@ -23,6 +23,53 @@
 	</div>
 
 	<script type="text/javascript" src="canvas.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+
+	<script type="text/javascript">
+
+	// initialize our canvas 
+	var s = new CanvasState(document.getElementById('canvas'));
+
+	// use jQuery to parse jSon config file
+	jQuery(function($) {
+
+	// get data
+	$.getJSON('test.json', function(data) {         
+		   
+
+		$.each(data.wheels, function(key, val) {
+		   var wheelConfig = [];
+		   var colors = [];
+		   var legends = [];
+		   for(i =0;i < val.numberSegments*2;i++) {
+		   	var seg = val.segments[i];
+			// console.log(seg.color);
+			colors.push(seg.color);
+			legends.push(seg.legend);
+
+		   }
+	 	
+	// all our shapes to canvas
+  	for(j=0;j<=val.numberSegments*2;j++) {
+	 s.addShape(
+		new Shape(
+			val.insideRadius, // iR
+			val.outsideRadius, // oR
+			j, // pos
+			val.numberSegments,// nb
+			colors[j],//fill
+			legends[j] // legend
+			// val.textRadius,
+		)); 
+   }
+
+		 }); // end each
+
+	}); // end Json
+
+
+	}) // end document
+	</script>
 
     </body>
 </html>
