@@ -11,7 +11,7 @@
 
 
 // Constructor for segment objects
-function Shape(cx, cy, iR, oR, pos, nb, fill) {
+function Shape(cx, cy, iR, oR, pos, nb, fill, legend) {
 
   this.cx = cx || 0;
   this.cy = cy || 0;
@@ -20,6 +20,7 @@ function Shape(cx, cy, iR, oR, pos, nb, fill) {
   this.nb = nb || 1; // total number of element the loop
   this.pos = pos || 1; // i position in the loop
   this.fill = fill || '#AAAAAA' 
+  this.legend = legend || 'text'
 
 }
 
@@ -45,21 +46,19 @@ Shape.prototype.draw = function(ctx) {
   ctx.fill();
   ctx.save();
 
-  //store info for hit test
+  //store info for hit test - m1/m2 outside circle n1/n2 inside circle 
     this.m1 = Math.sin(angle+arc) / Math.cos(angle+arc);
     this.m2 = Math.sin(angle) / Math.cos(angle);
 
-  //  this.n1 = Math.sin(angle) / Math.cos(angle+arc);
- //   this.n2 = Math.sin(angle) / Math.cos(angle+arc);
+    this.n1 = Math.sin(angle) / Math.cos(angle+arc);
+    this.n2 = Math.sin(angle) / Math.cos(angle+arc);
 
-   console.log(this.pos +' has been drawn');
 
 }
 
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mx, my) {
-
     var x = mx - 250 , y = my-250 ;
 
     if( y < this.m1 * x && y > this.m2 * x ) {
@@ -68,11 +67,11 @@ Shape.prototype.contains = function(mx, my) {
         return false;
     }
 
-
  }
 
 
 function CanvasState(canvas) {
+
   // **** First some setup! ****
  
   this.canvas = canvas;
@@ -80,7 +79,7 @@ function CanvasState(canvas) {
   this.height = canvas.height;
   this.ctx = canvas.getContext('2d');
   
-//setup canvas origin
+  //setup canvas origin to 0,0
   this.ctx.translate(250, 250);
   this.ctx.moveTo(0,0);
 
@@ -93,65 +92,65 @@ function CanvasState(canvas) {
     this.styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)   || 0;
   }
 
-  // Fixed-position bars mess up mouse coordinates
+  // fix issue with fixed-position bars that mess up mouse coordinates
   var html = document.body.parentNode;
   this.htmlTop = html.offsetTop;
   this.htmlLeft = html.offsetLeft;
 
 
-  // **** Keep track of state! ****
+  // **** Keep track of canvas state! ****
   
   this.valid = false; // when set to false, the canvas will redraw everything
   this.shapes = [];  // the collection of things to be drawn
   this.selection = null;
 
-
-  // reference state
+  // variable to reference canvas current state during events
   var myState = this;
 
-
+  
+/*
   // add a dot on mouse move
   canvas.addEventListener('mousemove', function(e) {
     var mouse = myState.getMouse(e);
     //  myState.mouseDot(mouse.x-250, mouse.y- 250);
   })
+*/
 
-
-  // Up, down, and move are for dragging
+  // Event on click
   canvas.addEventListener('mousedown', function(e) {
 
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
-    var my = mouse.y;
+    var my = mouse.y; // mx, my 
 
     var shapes = myState.shapes;
     var l = shapes.length;
 
+   //  selection process 
+   // loop backward into shapes
     for (var i = l-1; i >= 0; i--) {
 
-      if (shapes[i].contains(mx, my)) {
+      if (shapes[i].contains(mx, my)) { // find a match
         var mySel = shapes[i];
-	console.log("selected : "+ shapes[i].pos);
-        myState.selection = mySel;
-        myState.valid = false;
+        myState.selection = mySel; // store selected item
+        myState.valid = false; // redraw canvas
         return;
       }
     }
-    // havent returned means we have failed to select anything.
-    // If there was an object selected, we deselect it
+
     if (myState.selection) {
-      myState.selection = null;
-      myState.valid = false; // Need to clear the old selection border
+      myState.selection = null; // nothing selected
+      myState.valid = false; // clear selection
     }
   }, true);
 
 
-
   // **** Options! ****
   
-  this.selectionColor = 'rgba(127, 255, 212, 1)';
+  this.selectionColor = 'rgba(200, 255, 212, 1)';
   this.selectionWidth = 2;  
-  this.interval = 30;
+  this.interval = 30; // check changes every 30ms
+
   setInterval(function() { myState.draw(); }, myState.interval);
 }
 
@@ -160,7 +159,6 @@ CanvasState.prototype.addShape = function(shape) {
   this.shapes.push(shape);
   this.valid = false;
 }
-
 
 CanvasState.prototype.clear = function() {
   this.ctx.clearRect(0, 0, this.width, this.height);
@@ -176,35 +174,34 @@ CanvasState.prototype.mouseDot = function(x,y) {
 
 }
 
-// While draw is called as often as the INTERVAL variable demands,
-// It only ever does something if the canvas gets invalidated by our code
+// Draw function is called every INTERVAL
+// but canvas is redrawn only if sth change
 CanvasState.prototype.draw = function() {
 
-  // if our state is invalid, redraw and validate!
-// console.log(this.valid);
-
-  if (!this.valid) {
+  if (!this.valid) { // if our state is invalid, redraw and validate!
     
     var ctx = this.ctx;
     var shapes = this.shapes;
     this.clear();
-    
+
+
     // ** Add stuff you want drawn in the background all the time here **
-    // draw all shapes
+
+    
     var l = shapes.length;
 
+     // draw all shapes
     for (var i = 0; i < l; i++) {
       var shape = shapes[i];
-      shapes[i].draw(ctx);
+      shapes[i].draw(ctx); 
     }
-    
+
     // draw selection
-    // right now this is just a stroke along the edge of the selected Shape
     if (this.selection != null) {
 
-      var mySel = this.selection;
+      var mySel = this.selection; 
 
-	// Redraw selected segment
+      // start redraw selected segment
 
        var arc = Math.PI / mySel.nb; // arc angle value
        var angle = startAngle + mySel.pos*arc;
@@ -219,17 +216,16 @@ CanvasState.prototype.draw = function() {
 	ctx.fill();
 	ctx.save();
 
-
     }
     
     // ** Add stuff you want drawn on top all the time here **
    
-    this.valid = true;
+    this.valid = true; // if no change anymore, then validate
   }
 }
 
 
-// Mouse position relative to the state's canvas including padding and borders
+// Advanced Mouse position, relative to the state's canvas including padding and borders
 CanvasState.prototype.getMouse = function(e) {
   var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
   
@@ -252,18 +248,18 @@ CanvasState.prototype.getMouse = function(e) {
   return {x: mx, y: my};
 }
 
-// init() for html body tag
+
+
+// The init() function to add to <body> tag
 
 function init() {
   var s = new CanvasState(document.getElementById('canvas'));
-	
-// NB : Shape(cx, cy, iR, oR, pos, nb, fill)
 
   for(j=0;j<=32;j++) {
-	  s.addShape(new Shape(250,250,200,125, j,8));
+	  s.addShape(new Shape(250,250,200,125, j,8)); // NB : Shape(cx, cy, iR, oR, pos, nb, fill)
    }
-console.log(s);
 
+console.log(s);
 }
 
 // Now go make something amazing!
