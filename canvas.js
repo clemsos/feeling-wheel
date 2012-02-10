@@ -32,7 +32,7 @@ Shape.prototype.draw = function(ctx) {
   var angle = startAngle + this.pos*arc;
 
   // basic styling
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = "#CCCCCC";
   ctx.lineWidth = 1;
   ctx.fillStyle = this.fill;
 
@@ -104,14 +104,6 @@ function CanvasState(canvas) {
   // variable to reference canvas current state during events
   var myState = this;
 
-  
-/*
-  // add a dot on mouse move
-  canvas.addEventListener('mousemove', function(e) {
-    var mouse = myState.getMouse(e);
-    //  myState.mouseDot(mouse.x-250, mouse.y- 250);
-  })
-*/
 
   // Event on click
   canvas.addEventListener('mousedown', function(e) {

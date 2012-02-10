@@ -3,28 +3,36 @@
     <head>
 	<script type="text/javascript" src="jquery.js"></script>
         <style>
-            body { margin: 0px; padding: 0px; font-size:10pt}
+            body { margin: 0px; padding: 0px; font-size:10pt; font-family:Arial}
             #colortest {border: 1px solid #9C9898; width:50px; height:50px;}
-            .left {float:left;width:500px}
-            .right {float:left;width:100px}
+            .div1 {width:200px;}
+            .div2 {width:500px; padding: 30px}
+            .div3 {width:300px;}
+            .left {float:left;}
+            .right {float:right;}
+            p.field { background-color:#efefef; padding:5px; width:180px};
         </style>
 	
     </head>
     <body>
-
-	<div class="right">
-		<h3>Color</h3>
-		<div id="colortest"></div>
-		<p id="colorname">Color Name</p>
-		<h3>Legend</h3>
-		<p id="legend">Emotion Name</p>
+	<div class="left div1">
+		
 	</div>
-	<div class="left">
-	<canvas id="canvas" width="500" height="500" style="border: 1px solid black;">
+	<div class="left div2">
+	<canvas id="canvas" width="500" height="500" style="border: 1px solid #CCC;">
 		This text is displayed if your browser does not support HTML5 Canvas.
 	</canvas>
 	</div>
+	<div class="right div3">
+	 	<h1>A selectable wheel</h1>
+		<p>Using js, jquery, json</p>
+		<h3>Color</h3>
+		<div id="colortest"></div>
+		<p class="field" id="colorname">Color Name</p>
+		<h3>Legend</h3>
+		<p class="field" id="legend">Emotion Name</p>
 
+	</div>
 	<script type="text/javascript" src="canvas.js"></script>
 	<script type="text/javascript" src="jquery.js"></script>
 
