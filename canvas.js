@@ -11,16 +11,18 @@
 
 
 // Constructor for segment objects
-function Shape(cx,cy,iR, oR, pos, nb, fill, legend) {
+function Shape(cx,cy,iR, oR, pos, nb, fill, legend, s) {
 
   this.cx = cx || 0;
   this.cy = cy || 0;  
   this.oR = oR || 1; 
   this.iR = iR || 1; 
+  this.oR = oR || 1; // starting angle
   this.nb = nb || 1; // total number of element the loop
   this.pos = pos || 0; // i position in the loop
   this.fill = fill || '#AAAAAA';
   this.legend = legend || 'text';
+  this.s = parseFloat(s) || 0; // starting angle in radians
 
 }
 
@@ -36,13 +38,17 @@ function containsObject(obj, list) {
     return false;
 }
 
-var startingAngle = 0;
 
 // Draws this shape into context
 Shape.prototype.draw = function(ctx) {
 
+// console.log(this.s);
+
   var arc = Math.PI / this.nb; // arc angle value
-  var angle = startingAngle + this.pos*arc;
+  var angle = this.s + this.pos*arc;
+
+   this.sA = angle; // store start angle
+   this.eA = angle + arc; // store final angle
 
   // basic styling
   ctx.strokeStyle = "#CCCCCC";
@@ -51,20 +57,19 @@ Shape.prototype.draw = function(ctx) {
 
   // trace path ctx.arc(cx, cy, r, sr, er);
   ctx.beginPath();
-  ctx.arc(0, 0,  this.oR, angle, angle + arc, false);
-  ctx.arc(0, 0,  this.iR, angle + arc, angle, true);
+  ctx.arc(0, 0,  this.oR, this.sA, this.eA, false);
+  ctx.arc(0, 0,  this.iR, this.eA, this.sA, true);
   ctx.stroke();
   ctx.fill();
   ctx.save();
-
-   this.sA = angle; // store start angle
-   this.eA = angle+arc; // store final angle
 
 }
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mr, mt) {
-    if( this.iR < mr && mr < this.oR && this.sA-Math.PI < mt && mt < this.eA-Math.PI ) {
+
+    var offset = Math.PI;
+    if( this.iR < mr && mr < this.oR && this.sA-offset < mt && mt < this.eA-offset ) {
         return true;
     } else {
         return false;
@@ -118,12 +123,12 @@ function CanvasState(canvas) {
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
     var my = mouse.y; // mx, my
-   
+
     // Get mouse polar coord  
     var mx = 250-mx , my = 250-my ; // align mouse origin to circle center
     var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
     var mt = Math.atan2(my,mx); // get mouse angle
-    
+
     var shapes = myState.shapes;
     var l = shapes.length;
 

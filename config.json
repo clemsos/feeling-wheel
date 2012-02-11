@@ -5,6 +5,7 @@
 	"insideRadius": "150",
 	"textRadius" : "180",
 	"numberSegments" : "16", 
+	"startingAngle" : "1.2",
 	"segments" :
 	[
 	  {
@@ -176,7 +177,8 @@
 	"outsideRadius": "150", 
 	"insideRadius": "100",
 	"textRadius" : "120",
-	"numberSegments" : "8", 
+	"numberSegments" : "8",
+	"startingAngle" : "0.5",
 	"segments" :
 	[
 	  {
@@ -256,7 +258,8 @@
 	"outsideRadius": "100", 
 	"insideRadius": "50",
 	"textRadius" : "80",
-	"numberSegments" : "4", 
+	"numberSegments" : "4",
+	"startingAngle" : "0.4",
 	"segments" :
 	[
 	  {
@@ -311,9 +314,10 @@
 {
 	"ID" : "4",
 	"outsideRadius": "50", 
-	"insideRadius": "0",
+	"insideRadius": "1",
 	"textRadius" : "30",
-	"numberSegments" : "2", 
+	"numberSegments" : "2",
+	"startingAngle" : "0.7",
 	"segments" :
 	[
 	  {

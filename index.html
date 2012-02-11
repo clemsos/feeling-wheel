@@ -45,7 +45,7 @@
 
 
 	$("#canvas").click(function() {
-		var textToInsert = "";
+	   var textToInsert = "";
 
 	   $.each(s.selection, function(c,item) {
 	    textToInsert  += '<div class="colortest" style="background-color:'+item.fill+ '"></div>';
@@ -53,7 +53,6 @@
 	   });
 		$('.colortest').html(textToInsert);
 	})
-
 
 	// get data
 	$.getJSON('config.json', function(data) {         
@@ -71,7 +70,7 @@
 	 	
 	// all our shapes to canvas
   	for(j=0; j<val.numberSegments*2 ;j++) {
-	// console.log(colors[j]);
+	// console.log(val.startingAngle);
 	 s.addShape(
 		new Shape(
 			0,//cx
@@ -81,8 +80,9 @@
 			j, // pos
 			val.numberSegments,// nb
 			colors[j],//fill
-			legends[j] // legend
+			legends[j],// legend
 			// val.textRadius,
+			val.startingAngle //s
 		)); 
 	}
 
