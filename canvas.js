@@ -98,7 +98,9 @@ function CanvasState(canvas) {
   
   this.valid = false; // when set to false, the canvas will redraw everything
   this.shapes = [];  // the collection of things to be drawn
-  this.selection = null;
+
+// turn selection into array for multiple choices
+  this.selection = [];
 
   // variable to reference canvas current state during events
   var myState = this;
@@ -106,6 +108,9 @@ function CanvasState(canvas) {
 
   // Event on click
   canvas.addEventListener('mousedown', function(e) {
+
+
+// console.log(this.selection);
 
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
@@ -128,8 +133,9 @@ function CanvasState(canvas) {
 
       if (shapes[i].contains(mr, mt)) { // find a match
         var mySel = shapes[i];	
-	console.log(mySel.sA, mySel.eA);
-        myState.selection = mySel; // store selected item
+	// console.log(mySel.sA, mySel.eA);
+        myState.selection.push(mySel); // store selected item
+	console.log(myState.selection)
         myState.valid = false; // redraw canvas
         return;
       }
@@ -195,19 +201,20 @@ CanvasState.prototype.draw = function() {
     if (this.selection != null) {
 
       var mySel = this.selection; 
-
-      // start redraw selected segment
-
+	console.log(mySel)
 
        ctx.fillStyle = this.selectionColor;
        ctx.lineWidth = this.selectionWidth;
 
+for(i=0;i<mySel.length;i++) {
 	ctx.beginPath();
-	ctx.arc(0, 0,  mySel.oR, mySel.sA, mySel.eA, false);
-	ctx.arc(0, 0,  mySel.iR, mySel.eA, mySel.sA, true);
+	ctx.arc(0, 0,  mySel[i].oR, mySel[i].sA, mySel[i].eA, false);
+	ctx.arc(0, 0,  mySel[i].iR, mySel[i].eA, mySel[i].sA, true);
 	ctx.stroke();
 	ctx.fill();
 	ctx.save();
+
+}
 
 	// add basic interface
 	document.getElementById('colortest').style.background = mySel.fill;
