@@ -24,7 +24,7 @@ function Shape(cx,cy,iR, oR, pos, nb, fill, legend) {
 
 }
 
-// a short snip to detect duplicates in array
+// Short snip to detect duplicates object and delete  in array
 function containsObject(obj, list) {
     var i;
     for (i = 0; i < list.length; i++) {
@@ -119,9 +119,6 @@ function CanvasState(canvas) {
   // Event on click
   canvas.addEventListener('mousedown', function(e) {
 
-
-// console.log(this.selection);
-
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
     var my = mouse.y; // mx, my
@@ -134,22 +131,16 @@ function CanvasState(canvas) {
     var shapes = myState.shapes;
     var l = shapes.length;
 
-   //  selection process 
    // loop backward into shapes
     for (var i = l-1; i >= 0; i--) {
 
       if (shapes[i].contains(mr, mt)) { // find a match
+
         var mySel = shapes[i];	
-
-// if item already selected, deselect
-
-if( containsObject(mySel, myState.selection) ) {
-	console.log("duplicate!")
-} else {
-        myState.selection.push(mySel); // store selected items
-}
-
-	console.log(myState.selection)
+	// if item already selected, deselect it
+	if( !containsObject(mySel, myState.selection) ) {
+		myState.selection.push(mySel); // store selected items
+	}
 
         myState.valid = false; // redraw canvas
         return;
@@ -216,20 +207,20 @@ CanvasState.prototype.draw = function() {
     if (this.selection != null) {
 
       var mySel = this.selection; 
-	console.log(mySel)
 
        ctx.fillStyle = this.selectionColor;
        ctx.lineWidth = this.selectionWidth;
 
-for(i=0;i<mySel.length;i++) {
-	ctx.beginPath();
-	ctx.arc(0, 0,  mySel[i].oR, mySel[i].sA, mySel[i].eA, false);
-	ctx.arc(0, 0,  mySel[i].iR, mySel[i].eA, mySel[i].sA, true);
-	ctx.stroke();
-	ctx.fill();
-	ctx.save();
+	for(i=0;i<mySel.length;i++) {
 
-}
+		ctx.beginPath();
+		ctx.arc(0, 0,  mySel[i].oR, mySel[i].sA, mySel[i].eA, false);
+		ctx.arc(0, 0,  mySel[i].iR, mySel[i].eA, mySel[i].sA, true);
+		ctx.stroke();
+		ctx.fill();
+		ctx.save();
+
+	}
 
 	// add basic interface
 	document.getElementById('colortest').style.background = mySel.fill;
