@@ -24,13 +24,13 @@ function Shape(cx,cy,iR, oR, pos, nb, fill, legend) {
 
 }
 
-var startAngle = 0;
+var startingAngle = 0;
 
 // Draws this shape into context
 Shape.prototype.draw = function(ctx) {
 
   var arc = Math.PI / this.nb; // arc angle value
-  var angle = startAngle + this.pos*arc;
+  var angle = startingAngle + this.pos*arc;
 
   // basic styling
   ctx.strokeStyle = "#CCCCCC";
@@ -48,28 +48,18 @@ Shape.prototype.draw = function(ctx) {
    this.sA = angle; // store start angle
    this.eA = angle+arc; // store final angle
 
-console.log(this.sA, this.eA)
+// console.log(this.sA, this.eA)
 }
 
 
 
 // Determine if a point is inside the shape's bounds
-Shape.prototype.contains = function(mx, my) {
+Shape.prototype.contains = function(mr, mt) {
+//console.log(this.sA -Math.PI/2)
 
-// Get mouse polar coord  
-    var mx = mx-250 , my = my-250 ; // align mouse origin to circle center
-    var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
-    var mt = Math.atan2(my, mx); // get mouse 
-
-// console.log("myMouse : "+ this.iR,mr, this.oR);
-// console.log(this.sA,this.eA);
-
-
-
-    if( this.iR < mr && mr < this.oR && this.sA < mt && mt < this.eA ) {
+    if( this.iR < mr && mr < this.oR && this.sA-Math.PI < mt && mt < this.eA-Math.PI ) {
         return true;
     } else {
-	console.log('mt'+mt);
         return false;
     }
 
@@ -119,7 +109,15 @@ function CanvasState(canvas) {
 
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
-    var my = mouse.y; // mx, my 
+    var my = mouse.y; // mx, my
+   
+    // Get mouse polar coord  
+    var mx = 250-mx , my = 250-my ; // align mouse origin to circle center
+    var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
+    var mt = Math.atan2(my,mx); // get mouse angle
+    
+
+	console.log("mouse(mr,mt) : "+ mr,mt);
 
     var shapes = myState.shapes;
     var l = shapes.length;
@@ -128,8 +126,9 @@ function CanvasState(canvas) {
    // loop backward into shapes
     for (var i = l-1; i >= 0; i--) {
 
-      if (shapes[i].contains(mx, my)) { // find a match
-        var mySel = shapes[i];
+      if (shapes[i].contains(mr, mt)) { // find a match
+        var mySel = shapes[i];	
+	console.log(mySel.sA, mySel.eA);
         myState.selection = mySel; // store selected item
         myState.valid = false; // redraw canvas
         return;
@@ -199,15 +198,13 @@ CanvasState.prototype.draw = function() {
 
       // start redraw selected segment
 
-       var arc = Math.PI / mySel.nb; // arc angle value
-       var angle = startAngle + mySel.pos*arc;
 
        ctx.fillStyle = this.selectionColor;
        ctx.lineWidth = this.selectionWidth;
 
 	ctx.beginPath();
-	ctx.arc(0, 0,  mySel.oR, angle, angle + arc, false);
-	ctx.arc(0, 0,  mySel.iR, angle + arc, angle, true);
+	ctx.arc(0, 0,  mySel.oR, mySel.sA, mySel.eA, false);
+	ctx.arc(0, 0,  mySel.iR, mySel.eA, mySel.sA, true);
 	ctx.stroke();
 	ctx.fill();
 	ctx.save();
