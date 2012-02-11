@@ -11,11 +11,42 @@ Here an example using jQuery to load a config Json file
 NB : the wheel itself does NOT use jQuery.
 
 
+
+Typical use
+--------------------
+
+html :
+
+	<canvas id="canvas" width="500" height="500" style="border: 1px solid #CCC;">
+		This text is displayed if your browser does not support HTML5 Canvas.
+	</canvas>
+
+js:
+
+	// initialize our canvas 
+	var s = new CanvasState(document.getElementById('canvas'));
+
+	 s.addShape(
+		new Shape(
+			centerX,
+			centerY,
+			insideRadius,
+			outsideRadius,
+			position,
+			totalNumberSegments,
+			colorFill,
+			legend,
+			// val.textRadius,
+			startingAngle
+		)); 
+
+
+You can have as many wheels as you want : just add more Shape objects to CanvasState.
+
+
 About config.json
 ---------------------
-You can have as many wheels as you want.
-
-Every wheel config is structure as followed :
+You can use a jSon config file, structured as followed :
 
 	"ID" : facultative value to identify your wheel,
 	"outsideRadius": radius value of the outside ring,
