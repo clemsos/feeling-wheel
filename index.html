@@ -56,14 +56,15 @@
 			// console.log(seg.color);
 			colors.push(seg.color);
 			legends.push(seg.legend);
-
 		   }
 	 	
 	// all our shapes to canvas
   	for(j=0; j<val.numberSegments*2 ;j++) {
-	console.log(colors[j]);
+	// console.log(colors[j]);
 	 s.addShape(
 		new Shape(
+			0,//cx
+			0,//cy
 			val.insideRadius, // iR
 			val.outsideRadius, // oR
 			j, // pos

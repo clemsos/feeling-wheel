@@ -11,8 +11,10 @@
 
 
 // Constructor for segment objects
-function Shape(iR, oR, pos, nb, fill, legend) {
+function Shape(cx,cy,iR, oR, pos, nb, fill, legend) {
 
+  this.cx = cx || 0;
+  this.cy = cy || 0;  
   this.oR = oR || 1; 
   this.iR = iR || 1; 
   this.nb = nb || 1; // total number of element the loop
@@ -23,7 +25,6 @@ function Shape(iR, oR, pos, nb, fill, legend) {
 }
 
 var startAngle = 0;
-
 
 // Draws this shape into context
 Shape.prototype.draw = function(ctx) {
@@ -44,50 +45,31 @@ Shape.prototype.draw = function(ctx) {
   ctx.fill();
   ctx.save();
 
-    this.m1 = Math.sin(angle+arc) / Math.cos(angle+arc);
-    this.m2 = Math.sin(angle) / Math.cos(angle);
+   this.sA = angle; // store start angle
+   this.eA = angle+arc; // store final angle
 
-    this.n1 = Math.sin(angle) / Math.cos(angle+arc);
-    this.n2 = Math.sin(angle) / Math.cos(angle+arc);
-
+console.log(this.sA, this.eA)
 }
+
 
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mx, my) {
 
-// coordinates
+// Get mouse polar coord  
+    var mx = mx-250 , my = my-250 ; // align mouse origin to circle center
+    var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
+    var mt = Math.atan2(my, mx); // get mouse 
 
-	var arc = Math.PI / this.nb;
-	var angle = startAngle + this.pos*arc;
-	var x = 0 , y = 0;
-
-//  A(x + radius, y), B(x + radius*cos(angle), y + radius*sin(angle))
-// http://stackoverflow.com/questions/3671611/how-do-i-get-the-x-y-coordinates-of-the-first-and-last-points-of-the-drawn-arc-r
+// console.log("myMouse : "+ this.iR,mr, this.oR);
+// console.log(this.sA,this.eA);
 
 
-// [AB] coordonates on outer circle : A(xA,yA), B(xB,yB)
-//  ctx.arc(0, 0,  this.oR, angle, angle + arc, false);
-    var xA = x+this.oR, yA = y;
-    var xB = x+this.oR*Math.cos(angle+arc),  yB = this.oR*Math.sin(angle+arc);
 
-// [CD] coordonates on outer circle : C(xC,yC), D(xD,yD)
-// ctx.arc(0, 0,  this.iR, angle + arc, angle, true);
-    var xC = x+this.iR, yC = y;
-    var xD = x+this.iR*Math.cos(angle+arc),  yD = this.oR*Math.sin(angle+arc);
-
-// check values
-     console.log(mx-250,250-my)
-     console.log('A(' + xA + ',' + yA + '))')
-     console.log('B(' + xB + ',' + yB + '))')
-     console.log('C(' + xC + ',' + yC + '))')
-     console.log('D(' + xD + ',' + yD + '))')
-
-    var myX = mx - 250 , myY = my-250 ;
-
-    if( myY < this.m1 * myX && myY > this.m2 * myX ) {
+    if( this.iR < mr && mr < this.oR && this.sA < mt && mt < this.eA ) {
         return true;
     } else {
+	console.log('mt'+mt);
         return false;
     }
 
