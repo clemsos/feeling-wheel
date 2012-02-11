@@ -1,9 +1,14 @@
 FEELING WHEEL
 ----
 
-Tool to select an emotion from a custom color wheel
+Html5/canvas/javascript selectable wheel to store info and colors.
 
-Javascript + jQuery + html5 canvas 
+Description:
+---------------------
+A customizable wheel for selection (color wheel, menu, etc.)
+
+Here an example using jQuery to load a config Json file
+NB : the wheel itself does NOT use jQuery.
 
 
 About config.json
@@ -16,7 +21,8 @@ Every wheel config is structure as followed :
 	"outsideRadius": radius value of the outside ring,
 	"insideRadius": radius value of the outside ring, 
 	"textRadius" : text disposition,
-	"numberSegments" : number of segments inside your wheel, 
+	"numberSegments" : number of segments inside your wheel,
+	"startingAngle" : angle to start draw the wheel in radians,
 	"segments" : total count = numberSegments 
 		[
 		  {
@@ -24,8 +30,6 @@ Every wheel config is structure as followed :
 		    "legend": some text of your choice
 		   }
 		]
-
-
 
 
 
