@@ -24,6 +24,18 @@ function Shape(cx,cy,iR, oR, pos, nb, fill, legend) {
 
 }
 
+// a short snip to detect duplicates in array
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i] === obj) {
+	    list.splice(i, 1)
+            return true;
+        }
+    }
+    return false;
+}
+
 var startingAngle = 0;
 
 // Draws this shape into context
@@ -48,14 +60,12 @@ Shape.prototype.draw = function(ctx) {
    this.sA = angle; // store start angle
    this.eA = angle+arc; // store final angle
 
-// console.log(this.sA, this.eA)
 }
 
 
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mr, mt) {
-//console.log(this.sA -Math.PI/2)
 
     if( this.iR < mr && mr < this.oR && this.sA-Math.PI < mt && mt < this.eA-Math.PI ) {
         return true;
@@ -121,9 +131,6 @@ function CanvasState(canvas) {
     var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
     var mt = Math.atan2(my,mx); // get mouse angle
     
-
-	console.log("mouse(mr,mt) : "+ mr,mt);
-
     var shapes = myState.shapes;
     var l = shapes.length;
 
@@ -133,9 +140,17 @@ function CanvasState(canvas) {
 
       if (shapes[i].contains(mr, mt)) { // find a match
         var mySel = shapes[i];	
-	// console.log(mySel.sA, mySel.eA);
-        myState.selection.push(mySel); // store selected item
+
+// if item already selected, deselect
+
+if( containsObject(mySel, myState.selection) ) {
+	console.log("duplicate!")
+} else {
+        myState.selection.push(mySel); // store selected items
+}
+
 	console.log(myState.selection)
+
         myState.valid = false; // redraw canvas
         return;
       }
