@@ -3,14 +3,15 @@
     <head>
 	<script type="text/javascript" src="jquery.js"></script>
         <style>
-            body { margin: 0px; padding: 0px; font-size:10pt; font-family:Arial}
-            #colortest {border: 1px solid #9C9898; width:50px; height:50px;}
+            body { margin: 0px; padding: 0px; font-size:10pt; font-family:"Arial"}
+            .colortest {border: 1px solid #ccc; width:50px; height:50px;}
             .div1 {width:200px;}
             .div2 {width:500px; padding: 30px}
             .div3 {width:300px;}
             .left {float:left;}
             .right {float:right;}
             p.field { background-color:#efefef; padding:5px; width:180px;}
+            clear {clear:both;}
         </style>
 	
     </head>
@@ -27,10 +28,8 @@
 	 	<h1>A selectable wheel</h1>
 		<p>Using js, jquery, json</p>
 		<h3>Color</h3>
-		<div id="colortest"></div>
-		<p class="field" id="colorname">Color Name</p>
-		<h3>Legend</h3>
-		<p class="field" id="legend">Emotion Name</p>
+		<div class="colortest"></div>
+		<div class='clear'></div>
 
 	</div>
 	<script type="text/javascript" src="canvas.js"></script>
@@ -43,6 +42,18 @@
 
 	// use jQuery to parse jSon config file
 	jQuery(function($) {
+
+
+	$("#canvas").click(function() {
+		var textToInsert = "";
+
+	   $.each(s.selection, function(c,item) {
+	    textToInsert  += '<div class="colortest" style="background-color:'+item.fill+ '"></div>';
+	    textToInsert  += '<div class="colorname">'+item.legend+'</div>';
+	   });
+		$('.colortest').html(textToInsert);
+	})
+
 
 	// get data
 	$.getJSON('config.json', function(data) {         

@@ -62,17 +62,13 @@ Shape.prototype.draw = function(ctx) {
 
 }
 
-
-
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mr, mt) {
-
     if( this.iR < mr && mr < this.oR && this.sA-Math.PI < mt && mt < this.eA-Math.PI ) {
         return true;
     } else {
         return false;
     }
-
  }
 
 
@@ -173,16 +169,6 @@ CanvasState.prototype.clear = function() {
   this.ctx.clearRect(0, 0, this.width, this.height);
 }
 
-CanvasState.prototype.mouseDot = function(x,y) {
-
-    this.ctx.beginPath();
-    this.ctx.save();
-    this.ctx.arc(x,y,3,0,360*Math.PI/180);
-    this.ctx.fill();
-    this.ctx.restore();
-
-}
-
 // Draw function is called every INTERVAL
 // but canvas is redrawn only if sth change
 CanvasState.prototype.draw = function() {
@@ -219,14 +205,7 @@ CanvasState.prototype.draw = function() {
 		ctx.stroke();
 		ctx.fill();
 		ctx.save();
-
 	}
-
-	// add basic interface
-	document.getElementById('colortest').style.background = mySel.fill;
-	document.getElementById('colorname').innerHTML = mySel.fill;
-	document.getElementById('legend').innerHTML = mySel.legend;
-
     }
     
     // ** Add stuff you want drawn on top all the time here **
