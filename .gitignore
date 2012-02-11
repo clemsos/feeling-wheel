@@ -1,6 +1,7 @@
 .gitignore
 canvas/
 oldies/
+circos/
 *.*~
 *~
 
