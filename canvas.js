@@ -132,7 +132,8 @@ function CanvasState(canvas) {
 
       if (shapes[i].contains(mr, mt)) { // find a match
 
-        var mySel = shapes[i];	
+        var mySel = shapes[i];
+        console.log(mySel)
 	// if item already selected, deselect it
 	if( !containsObject(mySel, myState.selection) ) {
 		myState.selection.push(mySel); // store selected items
@@ -144,8 +145,8 @@ function CanvasState(canvas) {
     }
 
     if (myState.selection) {
-      myState.selection = null; // nothing selected
-      myState.valid = false; // clear selection
+     // myState.selection = null; // nothing selected
+      // myState.valid = false; // clear selection
     }
   }, true);
 
