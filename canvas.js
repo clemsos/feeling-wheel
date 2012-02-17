@@ -66,9 +66,19 @@ Shape.prototype.draw = function(ctx) {
 }
 
 // Determine if a point is inside the shape's bounds
-Shape.prototype.contains = function(mr, mt) {
+Shape.prototype.contains = function(mx, my) {
 
-    var offset = Math.PI;
+   // Get mouse polar coord  
+    var mx = 250-mx , my = 250-my ; // align mouse origin to circle center
+    var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
+
+    //apply initial starting point to mouse coordinates
+    mx = mx * Math.cos(this.s) - my * Math.sin(this.s)
+    my = mx * Math.sin(this.s) + my * Math.cos(this.s)
+
+    var mt = Math.atan2(my,mx); // get mouse angle
+
+    var offset = Math.PI; // 180°
     if( this.iR < mr && mr < this.oR && this.sA-offset < mt && mt < this.eA-offset ) {
         return true;
     } else {
@@ -89,6 +99,7 @@ function CanvasState(canvas) {
   //setup canvas origin to 0,0
   this.ctx.translate(250, 250);
   this.ctx.moveTo(0,0);
+
 
   // Fix mouse co-ordinate problems
   var stylePaddingLeft, stylePaddingTop, styleBorderLeft, styleBorderTop;
@@ -124,18 +135,12 @@ function CanvasState(canvas) {
     var mx = mouse.x;
     var my = mouse.y; // mx, my
 
-    // Get mouse polar coord  
-    var mx = 250-mx , my = 250-my ; // align mouse origin to circle center
-    var mr = Math.sqrt(mx*mx + my*my); // get mouse radius
-    var mt = Math.atan2(my,mx); // get mouse angle
-
     var shapes = myState.shapes;
     var l = shapes.length;
 
-   // loop backward into shapes
     for (var i = l-1; i >= 0; i--) {
 
-      if (shapes[i].contains(mr, mt)) { // find a match
+      if (shapes[i].contains(mx, my)) { // find a match
 
         var mySel = shapes[i];
         console.log(mySel)
