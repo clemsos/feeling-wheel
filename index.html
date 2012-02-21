@@ -11,18 +11,18 @@
             .left {float:left;}
             .right {float:right;}
             p.field { background-color:#efefef; padding:5px; width:180px;}
+            canvas {border: 1px solid #CCC; }
             clear {clear:both;}
         </style>
 	
     </head>
-    <body>
+    <body onmousedown="return false;">
 	<div class="left div1">
 		
 	</div>
 	<div class="left div2">
-	<canvas id="canvas" width="500" height="500" style="border: 1px solid #CCC;">
-		This text is displayed if your browser does not support HTML5 Canvas.
-	</canvas>
+	   <div id="container">
+	    </div>
 	</div>
 	<div class="right div3">
 	 	<h1>A selectable wheel</h1>
@@ -32,67 +32,324 @@
 		<div class='clear'></div>
 
 	</div>
-	<script type="text/javascript" src="canvas.js"></script>
-	<script type="text/javascript" src="jquery.js"></script>
 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="http://www.html5canvastutorials.com/libraries/kinetic-v3.7.4.js"></script>
 	<script type="text/javascript">
+	
 
-	// initialize our canvas 
-	var s = new CanvasState(document.getElementById('canvas'));
+	// Short snip to detect duplicates object and delete in array
+	function containsObject(obj, list) {
+	    var i;
+	    for (i = 0; i < list.length; i++) {
+		if (list[i] === obj) {
+		    list.splice(i, 1);
+		    obj.selection = 0;
+		    return true;
+		}
+	    }
+	    return false;
+	}
 
-	// use jQuery to parse jSon config file
+		
 	jQuery(function($) {
+	
+	// init kinetic
+	var stage = new Kinetic.Stage("container", 500, 500);
+	var bigLayer = new Kinetic.Layer();
+	// var wheel = new Kinetic.Group();
+	var messageLayer = new Kinetic.Layer();
+	var myColors=[], myLabels=[];
+	var numberSegments;
+	var nbSubSegments = 0;
+	var groups = [];
+	var layers = [];
+	var colors = [];
+	var legends = [];
+	var subSegs = [];
+	var mySelection = [];
+	var label;
+	var startScale = 1;
 
+	// create tooltip
+		
+	var tooltipLayer = new Kinetic.Layer();
+	
+	var tooltip = new Kinetic.Shape(function(){
+		var context = this.getContext();
+		context.beginPath();
+		context.fillStyle = "black";
+		context.fillRect(5, 5, 100, 30);
+		context.font = "12pt Calibri";
+		context.fillStyle = "white";
+		context.textBaseline = "top";
+		context.fillText(this.text, 10, 10);
+	    });
 
-	$("#canvas").click(function() {
-	   var textToInsert = "";
+	    // add custom property
+	    tooltip.text = "";
 
-	   $.each(s.selection, function(c,item) {
-	    textToInsert  += '<div class="colortest" style="background-color:'+item.fill+ '"></div>';
-	    textToInsert  += '<div class="colorname">'+item.legend+'</div>';
-	   });
-		$('.colortest').html(textToInsert);
-	})
+	    // hide tooltip until it's needed
+	    tooltip.hide();
 
-	// get data
-	$.getJSON('config.json', function(data) {         
+	    //tooltipLayer.listen(false);
+	    tooltipLayer.add(tooltip);
+
+	// basic design for selection -- can be implement inside mousedown action
+	var selectionLineColor =  'rgba(200, 255, 212, 1)';
+	var selectionLineWidth = 5;
+	var selectionColor =  'rgba(200, 255, 212, 1)'
+	
+	// get all data from Json File
+	$.getJSON('emotions.json', function(data) {         
 		   
-		$.each(data.wheels, function(key, val) {
-		  
-		   var colors = [];
-		   var legends = [];
-		   for(i =0;i < val.numberSegments*2;i++) {
+		$.each(data.feelings, function(key, val) {
+		   numberSegments = val.segments.length;
+		   
+		   var subs = [];
+		   for(i =0;i <  numberSegments;i++) {
 		   	var seg = val.segments[i];
-			// console.log(seg.color);
+		   	
+		   	if (val.segments[i].sub) {
+
+			  for(j=0;j<seg.sub.length; j++) {
+			   // console.log(seg.sub[j].legend);
+			    subSeg = [nbSubSegments,i, seg.sub[j].color, seg.sub[j].legend];
+			    subSegs.push(subSeg);
+			    nbSubSegments++;
+			    //console.log(nbSubSegments)
+			  }
+			}
+			subs.push(subSegs);
 			colors.push(seg.color);
 			legends.push(seg.legend);
 		   }
-	 	
-	// all our shapes to canvas
-  	for(j=0; j<val.numberSegments*2 ;j++) {
-	// console.log(val.startingAngle);
-	 s.addShape(
-		new Shape(
-			0,//cx
-			0,//cy
-			val.insideRadius, // iR
-			val.outsideRadius, // oR
-			j, // pos
-			val.numberSegments,// nb
-			colors[j],//fill
-			legends[j],// legend
-			// val.textRadius,
-			val.startingAngle //s
-		)); 
-	}
+		
+		// Draw shapes to canvas
+		var startingPoint = 0;
+		var subSegCount = 0;
+		
+		var wheel1  = new Kinetic.Group();
+		var layer1 = new Kinetic.Layer();
+		var layer2 = new Kinetic.Layer();
+		var myStart = 0;
+		
+		for(n=0; n<numberSegments ;n++) {
+			// draw segments here
+			(function(){
+				var j = n;
+				var myGroup = new Kinetic.Group(); 
 
-		 }); // end each
+				var seg = new Kinetic.Shape(function(){
+				// console.log(myGroup);
+				var ctx = this.getContext();
+				
+				//setup canvas origin to 0,0
+				ctx.translate(250, 250);
+				ctx.moveTo(0,0);
+				
+				//get arc dimensions
+				var count = seg.parent.children.length;
+				var unit = Math.PI*2/subSegs.length; 
+				myStart = count;
+				
+				var arc = count*unit; // arc angle value
+				//  var arc = Math.PI*2/numberSegments;
+				var angle = j*unit + arc;
+				var oR = 20, iR = 150;
+				
+				console.log(myStart)
+				var sA = angle; // store start angle
+				var eA = angle + arc; // store final angle
 
-	}); // end Json
+				// basic styling
+				ctx.strokeStyle = "#CCCCCC";
+				ctx.lineWidth = 1;
+				
+				if(this.selection != 1) {
+				ctx.fillStyle = colors[j];
+				} else {
+				ctx.fillStyle = selectionColor;
+				}
+				
 
+				// trace path ctx.arc(cx, cy, r, sr, er);
+				ctx.beginPath();
+				ctx.arc(0, 0, oR, sA, eA, false);
+				ctx.arc(0, 0, iR, eA, sA, true);
+				ctx.stroke();
+				ctx.fill();
+				}, legends[j]);
+				
+				
+				seg.on("mouseover", function(){
+					document.body.style.cursor = "pointer";
+					//console.log(this)
+					this.parent.setAlpha(0.7);
+					layer2.draw();
+					
+					// add tooltip
+					var mousePos = stage.getMousePosition();
+					tooltip.x = mousePos.x;
+					tooltip.y = mousePos.y;
+					tooltip.text = legends[j];
+					tooltip.show();
+					tooltipLayer.draw();
+				});
+
+				seg.on("mouseout", function(){
+					this.parent.setAlpha(1);
+					layer2.draw();
+					//hide tooltip
+					tooltip.hide();
+					tooltipLayer.draw();
+
+				});
+
+				myGroup.add(seg)
+				groups[j] = myGroup;
+
+			})();
+		} //end for j
+		layer1.add(wheel1);
+		stage.add(layer1);
+		
+		// add sub segments
+		var group;
+		
+		for(m=0;m<subSegs.length; m++) {
+		  (function(){
+			var i = m;
+			// console.log(subSegs[i])//groups[j]
+			var sub = new Kinetic.Shape(function(){
+			
+			//var j = subSegs[i][1];
+			color = subSegs[i][2];
+			label = subSegs[i][3];
+			
+			var ctx = this.getContext();
+			
+			//setup canvas origin to 0,0
+			ctx.translate(250, 250);
+			ctx.moveTo(0,0);
+			
+		
+			var arc = Math.PI*2/subSegs.length; // arc angle value
+			var angle = startingPoint + i*arc;
+			var oR = 150, iR = 200;
+			
+			sA = angle; // store start angle
+			eA = angle + arc; // store final angle
+			
+			//console.log(color)
+
+
+			if(this.selection != 1) {
+				// basic styling
+				ctx.strokeStyle = "#CCCCCC";
+				ctx.lineWidth = 1;
+				ctx.fillStyle = color;
+				
+			} else {
+				// styling when selected
+				ctx.strokeStyle = selectionLineColor;
+				ctx.lineWidth = selectionLineWidth; 
+				ctx.fillStyle = selectionColor;
+			}
+			
+			
+			// trace path ctx.arc(cx, cy, r, sr, er);
+			ctx.beginPath();
+			ctx.arc(0, 0, oR, sA, eA, false);
+			ctx.arc(0, 0, iR, eA, sA, true);
+			ctx.stroke();
+			ctx.fill();
+			subSegCount++;
+			
+			}, subSegs[i][3]);
+			
+			// Mouse actions
+			
+			sub.on("mouseover", function(){
+				document.body.style.cursor = "pointer";
+				//console.log(this)
+				this.parent.setAlpha(0.7);
+
+				layer2.draw();
+				
+				// add tooltip
+				var mousePos = stage.getMousePosition();
+				tooltip.x = mousePos.x;
+				tooltip.y = mousePos.y;
+				tooltip.text = subSegs[i][3];
+				tooltip.show();
+				tooltipLayer.draw();
+				});
+				
+			sub.on("mouseout", function(){
+				this.parent.setAlpha(1);
+				layer2.draw();
+				//hide tooltip
+				tooltip.hide();
+				tooltipLayer.draw();
+			});
+			
+			
+			sub.on("mousedown", function() {
+			
+				// store color
+				this.label = subSegs[i][3];
+				this.color = subSegs[i][2];
+				
+				// remove if already selected
+				if( !containsObject(this,mySelection) ) {
+					this.selection = 1;
+					mySelection.push( this );
+				}
+				
+				// redraw layer
+				layer2.draw();
+				
+				// add info to interface with jQuery
+				var textToInsert = "";
+				textToInsert  += '<div class="colortest" style="background-color:'+'.'+ '"></div>';
+				textToInsert  += '<div class="colorname">'+this.name+'</div>';
+
+				$.each(mySelection, function(c,item) {
+		   		textToInsert  += '<div class="colortest" style="background-color:'+item.color+ '"></div>';
+		   		textToInsert  += '<div class="colorname">'+item.label+'</div>';
+		 });
+		$('.colortest').html(textToInsert);
+		
+				
+				
+			
+			});
+			
+			var j = subSegs[i][1];
+			groups[j].add(sub);
+			
+		  })();
+		
+		} // end for i -- subsegments
+		
+		
+		
+		for(var z=0; z<groups.length; z++) {
+		console.log()
+			layer2.add(groups[z]);
+		}
+		//layer2.add(group);
+		//groups.push(group);
+		
+		stage.add(messageLayer);
+		
+		stage.add(layer2);
+		stage.add(tooltipLayer);
+		
+		}); // end each
+	    }); // end Json
 	}) // end document
 	</script>
-
     </body>
 </html>
-

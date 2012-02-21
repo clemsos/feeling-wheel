@@ -1,37 +1,93 @@
-{"wheels": [
+{"feelings": [
     {
-	"ID" : "1",
-	"outsideRadius": "250", 
-	"insideRadius": "150",
-	"textRadius" : "180",
-	"numberSegments" : "3",
-	"startingAngle" : "1.3",
 	"segments" :
 	[
 	  {
 	    "color":"rgba(254,242,0,255)",
-	    "legend": "anger"
+	    "legend": "anger",
+	    "sub" : [
+	      {
+	        "color":"rgba(254,242,0,255)",
+	        "legend": "anger1"
+	      },
+	      {
+	        "color":"rgba(254,242,0,255)",
+	        "legend": "anger2"
+	      },
+	      {
+	        "color":"rgba(254,242,0,255)",
+	        "legend": "anger3"
+	      },
+	      {
+	        "color":"rgba(254,242,0,255)",
+	        "legend": "anger4"
+	      }
+	    ]
 	   },
 	  {
-	    "color":"rgba(255,204,0,255)",
-	    "legend": "worried"
+	    "color":"rgba(254,204,0,255)",
+	    "legend": "worried",
+	    	    "sub" : [
+	      {
+	        "color":"rgba(254,204,0,255)",
+	        "legend": "worried1"
+	      },
+	      {
+	        "color":"rgba(254,204,0,255)",
+	        "legend": "worried2"
+	      },
+	      {
+	        "color":"rgba(254,204,0,255)",
+	        "legend": "worried3"
+	      },
+	      {
+	        "color":"rgba(254,204,0,255)",
+	        "legend": "worried4"
+	      }
+	    ]
 	   },
 	  {
 	    "color":"rgba(243,91,32,255)",
-	    "legend": "strange"
+	    "legend": "strange",
+	    "sub" : [
+	      
+	      {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange2"
+	      },
+	      {
+	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange3"
+	      },
+	      {
+	      	    "color":"rgba(243,91,32,255)",
+	    "legend": "strange4"
+	      }
+	    ]
 	   },
 	  {
 	    "color":"rgba(248,1,32,255)",
-	    "legend": "fury"
+	    "legend": "fury",
+	    "sub" : [
+	      {
+	        "color":"rgba(248,1,32,255)",
+	        "legend": "fury1"
+	      },
+	      {
+	        "color":"rgba(248,1,32,255)",
+	        "legend": "fury2"
+	      },
+	      {
+	        "color":"rgba(248,1,32,255)",
+	        "legend": "fury3"
+	      }
+	    ]
 	   },
 	  {
 	    "color":"rgba(204,0,113,255)",
-	    "legend": "worried"
+	    "legend": "happy"
 	   },
 	  {
-	    "color":"rgba(103,58,126,255)",
-	    "legend": "sick"
-	   }, {
 	    "color":"rgba(103,58,126,255)",
 	    "legend": "sick"
 	   }
