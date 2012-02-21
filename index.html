@@ -153,9 +153,10 @@
 				var unit = Math.PI*2/subSegs.length; 
 				myStart = count;
 				
-				var arc = count*unit; // arc angle value
-				//  var arc = Math.PI*2/numberSegments;
-				var angle = j*unit + arc;
+				//var arc = count*unit; // arc angle value
+				// var angle =  j*unit + arc;
+				var arc = Math.PI*2/numberSegments;
+				var angle = startingPoint + j*arc; 
 				var oR = 20, iR = 150;
 				
 				console.log(myStart)
