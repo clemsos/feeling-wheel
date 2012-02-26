@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-	<script type="text/javascript" src="jquery.js"></script>
         <style>
             body { margin: 0px; padding: 0px; font-size:10pt; font-family:"Arial"}
             .colortest {border: 1px solid #ccc; width:50px; height:50px;}
@@ -33,8 +32,8 @@
 
 	</div>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script src="http://www.html5canvastutorials.com/libraries/kinetic-v3.7.4.js"></script>
+	<script src="lib/jquery.js"></script>
+	<script src="lib/kinetic.js"></script>
 	<script type="text/javascript">
 	
 
@@ -62,6 +61,7 @@
 	var myColors=[], myLabels=[];
 	var numberSegments;
 	var nbSubSegments = 0;
+	var subCount = [];
 	var groups = [];
 	var layers = [];
 	var colors = [];
@@ -109,13 +109,14 @@
 		   var subs = [];
 		   for(i =0;i <  numberSegments;i++) {
 		   	var seg = val.segments[i];
-		   	
+		   	subCount.push(seg.sub.length);
 		   	if (val.segments[i].sub) {
-
+			
 			  for(j=0;j<seg.sub.length; j++) {
 			   // console.log(seg.sub[j].legend);
 			    subSeg = [nbSubSegments,i, seg.sub[j].color, seg.sub[j].legend];
 			    subSegs.push(subSeg);
+			    
 			    nbSubSegments++;
 			    //console.log(nbSubSegments)
 			  }
@@ -149,19 +150,20 @@
 				ctx.moveTo(0,0);
 				
 				//get arc dimensions
-				var count = seg.parent.children.length;
+				var count = subCount[j];
 				var unit = Math.PI*2/subSegs.length; 
-				myStart = count;
+				
+				// console.log(count);
 				
 				//var arc = count*unit; // arc angle value
 				// var angle =  j*unit + arc;
-				var arc = Math.PI*2/numberSegments;
-				var angle = startingPoint + j*arc; 
+				var arc = unit*count;
+				var angle = startingPoint + j*unit; 
 				var oR = 20, iR = 150;
 				
-				console.log(myStart)
+				// console.log(myStart)
 				var sA = angle; // store start angle
-				var eA = angle + arc; // store final angle
+				var eA = angle + count*arc; // store final angle
 
 				// basic styling
 				ctx.strokeStyle = "#CCCCCC";
