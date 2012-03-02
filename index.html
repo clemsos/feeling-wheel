@@ -159,17 +159,17 @@
 				
 				//get arc dimensions
 				var count = subCount[j];
-				var tot = subTot[j-1];
+				var tot = subTot[j];
 				var unit = Math.PI*2/subSegs.length; 
 
 				//console.log(sPoint);
 				var arc = Math.PI*2/subSegs.length;
-				var angle = startingPoint + tot*arc; 
+				var angle = startingPoint + tot*arc-unit*count; 
 				var oR = 20, iR = 150;
 				
 				// console.log(myStart)
 				var sA = angle; // store start angle
-				var eA = angle+unit*count; // store final angle
+				var eA = angle + unit*count; // store final angle
 
 				// basic styling
 				ctx.strokeStyle = "#CCCCCC";
