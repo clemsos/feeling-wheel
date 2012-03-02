@@ -2,8 +2,8 @@
 <html>
     <head>
         <style>
-            body { margin: 0px; padding: 0px; font-size:10pt; background-color:#111; color:#eee}
-            .colortest {border: 1px solid #bbb; width:50px; height:50px;}
+            body { margin: 0px; padding: 0px; font-size:12pt; background-color:#111; color:#eee}
+            .colortest {width:50px; height:50px;}
             .div1 {width:200px;}
             .div2 {width:500px; padding: 30px}
             .div3 {width:300px;}
@@ -24,7 +24,7 @@
 	</div>
 	<div class="right div3">
 	 	<h1>A selectable wheel</h1>
-		<p>Using js, jquery, json</p>
+		<p>Using kinetic.js & a lil bit of jquery</p>
 		<h3>Color</h3>
 		<div id='changer'></div>
 		<div class="colortest"></div>
@@ -212,6 +212,7 @@ function buildLegend(legend, wheelLayer, textLayer) {
 
 	    //store color from wheel
 	    this.color = s.rgbaCol;
+	    this.label = myText;
 	    // apply selection
 		
 		if(this.selected != 1) {
@@ -251,7 +252,7 @@ function buildLegend(legend, wheelLayer, textLayer) {
 		
 		$.each(selection, function(c,item) {
 		textToInsert  += '<div class="colortest" style="background-color:'+this.color+ '"></div>';
-		textToInsert  += '<div class="colorname">'+myText+'</div>';
+		textToInsert  += '<div class="colorname">'+this.label+'</div>';
 		});
 		
 		$('.colortest').html(textToInsert);
